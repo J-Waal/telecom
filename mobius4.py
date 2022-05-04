@@ -41,13 +41,20 @@ demodulated_snr = 10*np.log10((3*ac_squared*beta*beta*m2t_V2p)/(2*10**((PSDnoise
 print(f"demodulated_snr = {demodulated_snr} dB")
 
 # part b
+Ps=delta_F**2 * m2t_V2p
+
+Bbb=2*baseband_BW
+Pn=2/3/ac_squared * 10**((PSDnoise_single-30)/10) * Bbb**3
+
+SNRout=Ps/Pn
+print(f"snr_out = {10*np.log10(SNRout)} dB")
 
 # question 2
 print("question 2")
-bitrate = 220 # kbit/s
-amplitude = 55 # V  # peak amplitude
-resistance = 140 # ohm
-modulation = 0.3 # rad/v
+bitrate = 420 # kbit/s
+amplitude = 25 # V  # peak amplitude
+resistance = 90 # ohm
+modulation = 0.45 # rad/v
 # part a
 
 first_null_null_BW = 2 * bitrate
