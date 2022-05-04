@@ -28,8 +28,11 @@ print(f"IF_snr = {IF_snr} dB")
 # lecture 3 slide 14
 beta = delta_F / baseband_BW
 
+#calculating AC
+ac_squared  = 2*10**(receiver_in_pow)
+
 # lecture 4 slide 19
-demodulated_snr = 3*beta**2*m2t_V2p
+demodulated_snr = (3*ac_squared*beta**2*m2t_V2p)/(2*10**(PSDnoise_single)*1000*baseband_BW)
 
 print(f"demodulated_snr = {demodulated_snr} dB")
 
