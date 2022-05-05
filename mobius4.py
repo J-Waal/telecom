@@ -17,7 +17,6 @@ bb_mult = 4
 # rewrite to eliminate beta
 Carson_BW = 2*(baseband_BW+delta_F)*1000 # in hz
 
-
 PSDnoise_single = PSDnoise_double + 10*np.log10(2) # +3 dB
 
 DB_herz = 10*np.log10(IF_filter*Carson_BW)
@@ -37,7 +36,6 @@ ac_squared  = 2*10**((receiver_in_pow-30)/10)
 
 # lecture 4 slide 16
 demodulated_snr = 10*np.log10((3*ac_squared*beta*beta*m2t_V2p)/(2*10**((PSDnoise_single-30)/10)*baseband_BW))
-
 
 print(f"demodulated_snr = {demodulated_snr:.3f} dB")
 
