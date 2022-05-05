@@ -9,6 +9,7 @@ m2t_V2p = 0.7
 PSDnoise_double = -93.5 # dBm
 receiver_in_pow = -21 # dBm
 IF_filter = 1.5
+bb_mult = 4
 
 # part a
 
@@ -43,7 +44,7 @@ print(f"demodulated_snr = {demodulated_snr:.3f} dB")
 # part b
 Ps=delta_F**2 * m2t_V2p
 
-Bbb=2*baseband_BW
+Bbb=bb_mult*baseband_BW
 Pn=2/3/ac_squared * 10**((PSDnoise_single-30)/10) * Bbb**3
 
 SNRout=Ps/Pn
