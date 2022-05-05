@@ -3,18 +3,18 @@ import math as np
 
 # question 1
 print("question 1")
-baseband_BW = 12000 # hz
-delta_F = 70000 # hz
-m2t_V2p = 0.6
-PSDnoise_double = -92 # dBm
+baseband_BW = 13 # khz
+delta_F = 35 # khz
+m2t_V2p = 0.7
+PSDnoise_double = -93.5 # dBm
 receiver_in_pow = -21 # dBm
-IF_filter = 2
+IF_filter = 1.5
 
 # part a
 
 # lecture 3 slide 24
 # rewrite to eliminate beta
-Carson_BW = 2*(baseband_BW+delta_F)
+Carson_BW = 2*(baseband_BW+delta_F)*1000
 
 
 PSDnoise_single = PSDnoise_double + 10*np.log10(2)
@@ -41,6 +41,13 @@ demodulated_snr = 10*np.log10((3*ac_squared*beta*beta*m2t_V2p)/(2*10**((PSDnoise
 print(f"demodulated_snr = {demodulated_snr} dB")
 
 # part b
+Ps=delta_F**2 * m2t_V2p
+
+Bbb=2*baseband_BW
+Pn=2/3/ac_squared * 10**((PSDnoise_single-30)/10) * Bbb**3
+
+SNRout=Ps/Pn
+print(f"snr_out = {10*np.log10(SNRout)} dB")
 
 # question 2
 print("question 2")
@@ -62,4 +69,3 @@ print(f"power = {power} W")
 # lecture 4 slide 35
 carrier_comp = np.cos(modulation*np.pi)*100
 print(f"carrier_comp = {carrier_comp} %")
-
