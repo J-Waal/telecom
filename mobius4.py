@@ -68,5 +68,5 @@ print(f"power = {10*np.log10(power*1e3):.3f} dBm")
 
 # part c
 # lecture 4 slide 35
-carrier_comp = np.cos(modulation*np.pi)*100
+carrier_comp = np.cos(modulation*np.pi)**2*100
 print(f"carrier_comp = {carrier_comp:.2f} %")
