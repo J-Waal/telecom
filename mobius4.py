@@ -54,7 +54,7 @@ print("question 2")
 bitrate = 420 # kbit/s
 amplitude = 25 # V  # peak amplitude
 resistance = 90 # ohm
-modulation = 0.45 # rad/v
+modulation = 0.45*np.pi # rad/v
 # part a
 
 first_null_null_BW = 2 * bitrate
@@ -66,8 +66,8 @@ print(f"second_null_null_BW = {second_null_null_BW} kHz")
 power = amplitude**2/2/resistance
 print(f"power = {10*np.log10(power*1000)} dBm")
 
-# part cx
+# part c
 # lecture 4 slide 35
-carrier_comp = np.cos(modulation*np.pi)*100
+carrier_comp = (np.cos(modulation)**2)*100
 print(f"carrier_comp = {carrier_comp} %")
 
