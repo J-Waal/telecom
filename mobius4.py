@@ -63,6 +63,7 @@ print(f"nth_null_null_BW = {nth_null_null_BW} kHz")
 # part b
 
 power = amplitude**2/2/resistance
+
 #print(f"power = {power:.3f} W")
 print(f"power = {10*np.log10(power*1e3):.3f} dBm")
 
