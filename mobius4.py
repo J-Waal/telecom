@@ -58,14 +58,15 @@ modulation = 0.45 # rad/v
 # part a
 
 first_null_null_BW = 2 * bitrate
-print(f"first_null_null_BW = {first_null_null_BW} kHz")
+second_null_null_BW = 2*first_null_null_BW
+print(f"second_null_null_BW = {second_null_null_BW} kHz")
 
 # part b
 
 power = amplitude**2/2/resistance
-print(f"power = {power} W")
+print(f"power = {10*np.log10(power*1000)} dBm")
 
-# part c
+# part cx
 # lecture 4 slide 35
 carrier_comp = np.cos(modulation*np.pi)*100
 print(f"carrier_comp = {carrier_comp} %")
