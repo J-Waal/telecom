@@ -79,8 +79,20 @@ print(f"new spectral efficiency: {new_spectral_efficiency} bits/s/Hz")
 
 #question 4
 print("question 4")
+bit_rate_3 = 260 # kbit/s
+signal_power = -9 # dBm
+modulation_technique = "OOK" # given in part a
 #a
-
+if (modulation_technique in {"OOK", "BPSK"}):
+    #lecture 5 slide 25
+    print(f"null-to-null bandwidth: {2*bit_rate_3} kHz")
+    print("spectral efficiency: 0.5 bits/sec/Hz")
+else:
+    print("onbekende techniek (feel free to submit a pull request)")
 #b
-
+if modulation_technique == "OOK":
+    # lecture 4 slide 30
+    pass
+else:
+    pass
 #c
