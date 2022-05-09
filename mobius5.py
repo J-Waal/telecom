@@ -83,6 +83,8 @@ bit_rate_3_kbit = 260 # kbit/s
 signal_power_dbm = -9 # dBm
 modulation_technique = "OOK" # given in part a
 offset_frequency_khz = +52 # kHz, given in part b
+rolloff_factor_2 = 0.35 # given in part c
+frequency_deviation_khz = 936 # kHz, given in part c
 #a
 if (modulation_technique in {"OOK", "BPSK"}):
     #lecture 5 slide 25
@@ -105,4 +107,6 @@ if modulation_technique == "OOK":
 else:
     pass
 #c
-
+# lecture 4 slide 49
+absolute_bandwidth = 2*frequency_deviation_khz + bit_rate_3_kbit*(1+rolloff_factor_2)
+print(f"absolute bandwidth: {absolute_bandwidth} kHz")
