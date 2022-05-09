@@ -85,20 +85,30 @@ print("")
 
 #question 4
 print("question 4")
-bit_rate_3 = 210 # kbit/s
-signal_power = -25 # dBm
-modulation_technique = "BPSK" # given in part a
+bit_rate_3_kbit = 260 # kbit/s
+signal_power_dbm = -9 # dBm
+modulation_technique = "OOK" # given in part a
+offset_frequency_khz = +52 # kHz, given in part b
 #a
 if (modulation_technique in {"OOK", "BPSK"}):
     #lecture 5 slide 25
-    print(f"null-to-null bandwidth: {2*bit_rate_3} kHz")
+    print(f"null-to-null bandwidth: {2*bit_rate_3_kbit} kHz")
     print("spectral efficiency: 0.5 bits/sec/Hz")
 else:
     print("onbekende techniek (feel free to submit a pull request)")
 #b
+bit_rate_3 = bit_rate_3_kbit*1000
+offset_frequency = offset_frequency_khz*1000
+signal_power_mw = 10**(signal_power_dbm/10) # in mW
+#print(f"recived power: {signal_power_mw}")
 if modulation_technique == "OOK":
     # lecture 4 slide 30
+    psd_mw = (signal_power_mw/2)*(np.sin(offset_frequency/bit_rate_3*np.pi)/(offset_frequency/bit_rate_3*np.pi))**2/bit_rate_3
+    #print(f"power spectral density: {psd_mw} mW/Hz")
+    psd_dbm = 10*np.log10(psd_mw)
+    print(f"power spectral density: {psd_dbm} dBm/Hz")
     pass
 else:
     pass
 #c
+
