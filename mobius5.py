@@ -31,7 +31,7 @@ if (modulation_technique_1 in {"QAM","PSK"}): # calculation seems to be the same
     print(f"transmission bandwidth: {transmission_bandwidth/1000:.3f} kHz")
     #spectral_efficiency
     spectral_efficiency_Q1 = bits_per_symbol/(1+rolloff_factor)
-    print(f"Spectral efficiency: {spectral_efficiency_Q1} bits/s/Hz")
+    print(f"Spectral efficiency: {spectral_efficiency_Q1} bits/s/Hz") # THIS IS WRONG FOR PSK
 else:
     print("need to implement other modulation")
 print("")
@@ -59,6 +59,7 @@ print(f"new bitrate: {new_bitrate} kbit/sec")
 # hard one, use wolfram alpha
 print("Question C is better done in wolfram alpha")
 # Unfortunately, there is no nice closed-form solution available for his problem
+# https://www.desmos.com/calculator/mv25s0wsrp does not give the correct result
 print("")
 
 #question 3
@@ -75,7 +76,7 @@ print(f"r_ss: {r_ss/1e3:.4f} kBaud")
 
 #b
 total_bitrate = r_ss*subcarriers*np.log2(n_psk)
-print(f"r_ss: {r_ss/1e6:.4f} Mbit/sec")
+print(f"r_ss: {total_bitrate/1e6:.4f} Mbit/sec")
 
 #c
 spectral_efficiency = total_bitrate/(bandwith*1e6)
