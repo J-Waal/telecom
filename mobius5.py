@@ -4,10 +4,10 @@ import rlcompleter
 
 #question 1
 print("question 1")
-bit_rate = 190000 #bits/s
+bit_rate_kbit = 180 # kbit/s
 modulation_type = 1 #1 for QAM, 2 for QPSK
 #WARNING: EXTRA USER INPUT NEEDED FOR QUESTION C
-QAM_order = 256 #
+QAM_order = 16 #
 #a
 if (modulation_type == 1):
     bits_per_symbol = (np.log2(QAM_order))
@@ -17,25 +17,30 @@ elif (modulation_type == 2):
 print(f"bits per symbol: {bits_per_symbol} bits")
 
 #b
+bit_rate = bit_rate_kbit*1000
 null_to_null_bandwidth = 2*bit_rate/bits_per_symbol #in hertz, slide 12
 print(f"null-to-null bandwidth: {null_to_null_bandwidth/1000:.3f} kHz")
 
 #c
-QAM_order_2 = 64
-rolloff_factor = 0.85
+modulation_technique_1 = "PSK" # found in part c
+modulation_order_2 = 8 # found in part c
+rolloff_factor = 0.4 # found in part c
 
-transmission_bandwidth = bit_rate/(np.log2(QAM_order_2))*(1+rolloff_factor)
-print(f"transmission bandwidth: {transmission_bandwidth/1000:.3f} kHz")
-#spectral_efficiency
-spectral_efficiency_Q1 = bits_per_symbol/(1+rolloff_factor)
-print(f"Spectral efficiency: {spectral_efficiency_Q1} bits/s/Hz")
+if (modulation_technique_1 in {"QAM","PSK"}): # calculation seems to be the same
+    transmission_bandwidth = bit_rate/(np.log2(modulation_order_2))*(1+rolloff_factor)
+    print(f"transmission bandwidth: {transmission_bandwidth/1000:.3f} kHz")
+    #spectral_efficiency
+    spectral_efficiency_Q1 = bits_per_symbol/(1+rolloff_factor)
+    print(f"Spectral efficiency: {spectral_efficiency_Q1} bits/s/Hz")
+else:
+    print("need to implement other modulation")
 print("")
 
 #question 2
 print("question 2")
-bit_rate_2 = 370 # kbit/sec
-delta_f = 335 # khz
-droped_db = -16.5 # dB
+bit_rate_2 = 280 # kbit/sec
+delta_f = 160 # khz
+droped_db = -16.5 # dB, found in part c
 
 #a
 # lecture 4 slide 49
@@ -53,12 +58,13 @@ print(f"new bitrate: {new_bitrate} kbit/sec")
 # lecture 5 slide 23
 # hard one, use wolfram alpha
 print("Question C is better done in wolfram alpha")
+# Unfortunately, there is no nice closed-form solution available for his problem
 print("")
 
 #question 3
 print("question 3")
-subcarriers = 65
-bandwith = 60 # Mhz
+subcarriers = 51
+bandwith = 43 # Mhz
 n_psk = 8
 n_psk_2 = 8 # given in part d
 
