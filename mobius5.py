@@ -7,7 +7,7 @@ print("question 1")
 bit_rate = 190000 #bits/s
 modulation_type = 1 #1 for QAM, 2 for QPSK
 #WARNING: EXTRA USER INPUT NEEDED FOR QUESTION C
-QAM_order = 128 #
+QAM_order = 256 #
 #a
 if (modulation_type == 1):
     bits_per_symbol = (np.log2(QAM_order))
@@ -27,11 +27,14 @@ rolloff_factor = 0.85
 transmission_bandwidth = bit_rate/(np.log2(QAM_order_2))*(1+rolloff_factor)
 print(f"transmission bandwidth: {transmission_bandwidth/1000:.3f} kHz")
 #spectral_efficiency
+spectral_efficiency_Q1 = bits_per_symbol/(1+rolloff_factor)
+print(f"Spectral efficiency: {spectral_efficiency_Q1} bits/s/Hz")
+print("")
 
 #question 2
 print("question 2")
-bit_rate_2 = 280 # kbit/sec
-delta_f = 160 # khz
+bit_rate_2 = 370 # kbit/sec
+delta_f = 335 # khz
 droped_db = -16.5 # dB
 
 #a
@@ -49,11 +52,13 @@ print(f"new bitrate: {new_bitrate} kbit/sec")
 #c
 # lecture 5 slide 23
 # hard one, use wolfram alpha
+print("Question C is better done in wolfram alpha")
+print("")
 
 #question 3
 print("question 3")
-subcarriers = 51
-bandwith = 43 # Mhz
+subcarriers = 65
+bandwith = 60 # Mhz
 n_psk = 8
 n_psk_2 = 8 # given in part d
 
@@ -76,12 +81,13 @@ new_bandwith = 2 * new_bautrate
 #print(f"new bandwidth: {new_bandwith} Hz")
 new_spectral_efficiency = total_bitrate/new_bandwith
 print(f"new spectral efficiency: {new_spectral_efficiency} bits/s/Hz")
+print("")
 
 #question 4
 print("question 4")
-bit_rate_3 = 260 # kbit/s
-signal_power = -9 # dBm
-modulation_technique = "OOK" # given in part a
+bit_rate_3 = 210 # kbit/s
+signal_power = -25 # dBm
+modulation_technique = "BPSK" # given in part a
 #a
 if (modulation_technique in {"OOK", "BPSK"}):
     #lecture 5 slide 25
