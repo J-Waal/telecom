@@ -44,7 +44,7 @@ print("")
 
 #question 2
 print("question 2")
-
+##Ik doe vraag 2 wel wanneer ik thuiskom -Guus
 
 # part a
 
