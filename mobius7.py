@@ -52,26 +52,43 @@ print("")
 
 #question 2
 print("question 2")
-data_rate = 660 #kbit/s
-N0 = 20 #WARNING: pW/Hz
-Pe1 = 4*10**(-4) #bit error probability q1
-BEF1 = 4 #detection filter factor
+data_rate = 610 #kbit/s
+N0 = 15 #WARNING: pW/Hz
+Pe1 = 4*10**(-6) #bit error probability q1, found in part a?
+BEF1 = 3 #detection filter factor
+Pe2 = 9e-6 # found in part b?
 BEF2 = 1.5
 
 # part a, BPSK
 Beq_q2 = BEF1*data_rate #Hz
-N0_dbm = 10*(np.log10(N0)+9) #pico is 10^-12, dbm is -30 thus +90 db
+# redundant? N0_dbm = 10*(np.log10(N0)+9) #pico is 10^-12, dbm is -30 thus +90 db
 a_squared = Q_inv(Pe1)**2 * 2 * N0 * 10**-12 * Beq_q2
 recieved_power = 10*(np.log10(.5*a_squared))
 print(f"Recieved power: {recieved_power} dBm")
-
+# conversion to dBm is wrong, you used dBw?
 
 # part b
 Beq_q22 = BEF2*data_rate #Hz
 a_squared = Q_inv(Pe1)**2 * 4 * N0 * 10**-12 * Beq_q22
 recieved_power = 10*(np.log10(.5*a_squared))
 print(f"Recieved power 2: {recieved_power} dBm")
+# conversion to dBm is wrong, you used dBw?
 
+# not sure
+# part a version 2
+N0_W_Hz = N0*1e-12 # convert to W/Hz
+# lecture 7 slide 40 + slide 
+p1 = (Q_inv(Pe1))**2*N0_W_Hz*(BEF1*data_rate)
+print(f"P_recive: {10*np.log10(p1*1e3)} dBm")
+
+# part b version 2
+# it is 00:37 so i take a shortcut
+# lecture 7 slide 21
+# FSK needs 3 dB more (PEP) power than BPSK
+# so calculate the same as part a and add 3 dB
+p2_3lower = (Q_inv(Pe2))**2*N0_W_Hz*(BEF2*data_rate)
+p2 = p2_3lower*2 # add 3 dB
+print(f"P_recive: {10*np.log10(p2*1e3)} dBm")
 
 print("")
 
