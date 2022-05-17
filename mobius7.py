@@ -44,7 +44,10 @@ print("")
 
 #question 2
 print("question 2")
-##Ik doe vraag 2 wel wanneer ik thuiskom -Guus
+data_rate = 660 #kbit/s
+N0 = 20 #WARNING: pW/Hz
+Pe1 = 4*10**(-4) #bit error probability q1
+BEF1 = 4 #detection filter factor
 
 # part a
 
