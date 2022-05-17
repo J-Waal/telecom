@@ -7,6 +7,8 @@ def Q(value):
 def Q_inv(value):
     return -NormalDist(0,1).inv_cdf(value)
 
+
+#gives wrong results, got 0 points for 1
 #question 1
 print("question 1")
 
@@ -54,23 +56,26 @@ data_rate = 660 #kbit/s
 N0 = 20 #WARNING: pW/Hz
 Pe1 = 4*10**(-4) #bit error probability q1
 BEF1 = 4 #detection filter factor
+BEF2 = 1.5
 
 # part a, BPSK
 Beq_q2 = BEF1*data_rate #Hz
 N0_dbm = 10*(np.log10(N0)+9) #pico is 10^-12, dbm is -30 thus +90 db
-#I can't figure out how to do the inverse q function...., same problem for b
+a_squared = Q_inv(Pe1)**2 * 2 * N0 * 10**-12 * Beq_q2
+recieved_power = 10*(np.log10(.5*a_squared))
+print(f"Recieved power: {recieved_power} dBm")
 
-# I made you some functions, example
-print(f"Q(0) = {Q(0)}") # 0.5
-print(f"Q(2) = {Q(2)}")
-print(f"Q_inv(0.5) = {Q_inv(0.5)}") # 0
-print(f"Q_inv(0.1) = {Q_inv(0.1)}")
-# hope this helps
 
 # part b
+Beq_q22 = BEF2*data_rate #Hz
+a_squared = Q_inv(Pe1)**2 * 4 * N0 * 10**-12 * Beq_q22
+recieved_power = 10*(np.log10(.5*a_squared))
+print(f"Recieved power 2: {recieved_power} dBm")
+
 
 print("")
 
+#question 3a seems to be wrong too.
 #question 3
 print("question 3")
 # some extra variables are printed for testing
