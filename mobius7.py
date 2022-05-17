@@ -4,12 +4,12 @@ import math as np
 #question 1
 print("question 1")
 
-transmission_rate_kbit = 750 # kbit/sec
-alpha = 4.5
-beta = 3.2
+transmission_rate_kbit = 700 # kbit/sec
+alpha = 5.4
+beta = 3.9
 noise_psd_dbm = -91 # dBm/Hz
-snr_in_db = 9.5 # dB
-equivalent_noise_bandwidth_mult = 0.8 # *Rs, found in part c
+snr_in_db = 13 # dB
+equivalent_noise_bandwidth_mult = 1.6 # *Rs, found in part c
 
 # see homework 4
 # part a
@@ -49,8 +49,10 @@ N0 = 20 #WARNING: pW/Hz
 Pe1 = 4*10**(-4) #bit error probability q1
 BEF1 = 4 #detection filter factor
 
-# part a
-
+# part a, BPSK
+Beq_q2 = BEF1*data_rate #Hz
+N0_dbm = 10*(np.log10(N0)+9) #pico is 10^-12, dbm is -30 thus +90 db
+#I can't figure out how to do the inverse q function...., same problem for b
 
 # part b
 
@@ -59,12 +61,12 @@ print("")
 #question 3
 print("question 3")
 # some extra variables are printed for testing
-data_rate_kbit_3 = 180 # kbit/sec
-alpha_3  = 3.5
-beta_3 = 1.75
-noise_psd_2side_dbm = -83 # dBm/Hz
-ac2_over2_dbm = -28 # dBm, found in part a
-given_snr_db = 7 # dB, found in part b
+data_rate_kbit_3 = 160 # kbit/sec
+alpha_3  = 4
+beta_3 = 4.4
+noise_psd_2side_dbm = -85 # dBm/Hz
+ac2_over2_dbm = -34 # dBm, found in part a
+given_snr_db = 6 # dB, found in part b
 
 # part a
 total_power = 10**(ac2_over2_dbm/10)
