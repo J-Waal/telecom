@@ -58,9 +58,64 @@ print("")
 
 #question 3
 print("question 3")
-
+# some extra variables are printed for testing
+data_rate_kbit_3 = 180 # kbit/sec
+alpha_3  = 3.5
+beta_3 = 1.75
+noise_psd_2side_dbm = -83 # dBm/Hz
+ac2_over2_dbm = -28 # dBm, found in part a
+given_snr_db = 7 # dB, found in part b
 
 # part a
+total_power = 10**(ac2_over2_dbm/10)
+print(f"total signal power: {total_power:.2e} mw")
 
+# in-phase power
+power_in_phase_mw = (alpha_3**2/(alpha_3**2+beta_3**2)) * total_power
+print(f"In-phase power:   {power_in_phase_mw:.6f} mw, {10*np.log10(power_in_phase_mw):.2f} dBm")
+# quadrature power
+power_quadrature_mw = (beta_3**2/(alpha_3**2+beta_3**2)) * total_power
+print(f"Quadrature power: {power_quadrature_mw:.6f} mw, {10*np.log10(power_quadrature_mw):.2f} dBm")
 
+# check to see if the total power match
+print(f"I+Q signal power:   {(power_in_phase_mw+power_quadrature_mw):.2e} mw")
+
+# single sided power spectral density
+noise_psd_mw_3 = 2 * 10**(noise_psd_2side_dbm/10) # single side PSD in mw
+print(f"single sided power spectral density: {noise_psd_mw_3:.2e} mw/Hz")
+
+# filter bandwith
+filter_bw = (data_rate_kbit_3*1e3)/4
+
+# noise power
+noise_power_mw_3 = (noise_psd_mw_3*filter_bw)
+print(f"noise power: {noise_power_mw_3:.6f} mw")
+
+# signal-to-noise ratio
+calculated_snr = power_in_phase_mw/noise_power_mw_3
+calculated_snr_db = 10*np.log10(calculated_snr)
+print(f"calculated in-phase snr: {calculated_snr_db:.2f} dB")
+
+print("")
 # part b
+symbolrate = data_rate_kbit_3*1e3/2
+
+snr_i = 10**(given_snr_db/10)
+snr_q = snr_i/alpha_3**2*beta_3**2
+print(f"SNR I: {snr_i:8.3f}, Q: {snr_q:8.3f}")
+print(f"SNR I: {10*np.log10(snr_i):5.2f} dB, Q: {10*np.log10(snr_q):5.2f} dB")
+
+# lectue 7 slide 15
+# we use that SNR = (A^2)/(2*N_0*BW)
+# so 2*T*SNR*BW = (T*A^2)/(N_0), where T is the symbol time
+# = (2*SNR*BW)/R, where R is the symbol rate = bitrate/2
+
+ndist = NormalDist(0,1) # store the object to make the cdf notation short
+
+in_phase_error =   ndist.cdf(-np.sqrt(2*snr_i*filter_bw/symbolrate))
+quadrature_error = ndist.cdf(-np.sqrt(2*snr_q*filter_bw/symbolrate))
+print(f"error I: {in_phase_error}, Q: {quadrature_error}")
+# average bit error probability
+total_ber = 0.5*in_phase_error+0.5*quadrature_error
+print(f"average bit error probability {total_ber*100:.4f} %")
+# https://www.unilim.fr/pages_perso/vahid/notes/ber_awgn.pdf
