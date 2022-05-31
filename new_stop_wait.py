@@ -18,10 +18,11 @@ def bernuolli(p): # Bernoulli function the simulate coruption
     x = random.choices([0,1], weights=[p,1-p])
     return(x[0])
 
-# channel delay function
-async def sendAfter(delay: float, queue: Queue, frame: Frame):
+# channel delay function, also simulate packet loss
+async def sendAfter(delay: float, queue: Queue, frame: Frame, P: float):
     await asyncio.sleep(delay)
-    await queue.put(frame)
+    if bernuolli(P)==1: # only send the frame if no corruption did apear
+        await queue.put(frame)
 
 # sender function
 async def sender(p1, delay, timeout, sender_receiver: Queue, receiver_sender: Queue):
@@ -34,10 +35,7 @@ async def sender(p1, delay, timeout, sender_receiver: Queue, receiver_sender: Qu
         outgoingFrame = Frame(n_s,item)
         print(f"sender:\t\tsend frame, {outgoingFrame.string()}")
         while True:
-            # see if the frame gets corrupted
-            if bernuolli(p1) == 1:
-                # only send the frame if no corruption did apear
-                asyncio.ensure_future(sendAfter(delay,sender_receiver,outgoingFrame))
+            asyncio.ensure_future(sendAfter(delay,sender_receiver,outgoingFrame,p1))
             times_send += 1 # keep track of how many data frames are send
             # wait for the response
             try:
@@ -58,8 +56,10 @@ async def sender(p1, delay, timeout, sender_receiver: Queue, receiver_sender: Qu
 async def receiver(p2, delay, sender_receiver: Queue, receiver_sender: Queue):
     n_r = 0
     receivedData = []
-    while len(receivedData) < 10: # stop after we have 10 packets
+    while True: # The receiver will always listen for incoming frames
         incomingFrame: Frame = await sender_receiver.get()
+        if incomingFrame.data == 'stop':
+            break
         print(f"receiver:\treceived frame, {incomingFrame.string()}")
         # do check on framenumbner
         if incomingFrame.framenumber == n_r:
@@ -71,23 +71,22 @@ async def receiver(p2, delay, sender_receiver: Queue, receiver_sender: Queue):
         # send ACK
         ackFrame = Frame(n_r,incomingFrame.data)
         print(f"receiver:\tsending ACK, {ackFrame.string()}")
-        # see if the ACK frame gets corrupted
-        if bernuolli(p2) == 1:
-            # only send the ACK if no corruption did apear
-            asyncio.ensure_future(sendAfter(delay,receiver_sender,ackFrame))
+        asyncio.ensure_future(sendAfter(delay,receiver_sender,ackFrame,p2))
     print(f"receiver:\tall data received, {receivedData}")
-    # close comunication
-    await receiver_sender.put(Frame('x','x'))
+    return receivedData
+    
 
 
 async def main(p1, p2, delay, timeout):
     sender_receiver = asyncio.Queue()
     receiver_sender = asyncio.Queue()
-    sender
-    await asyncio.gather(
-        sender(p1, delay, timeout, sender_receiver, receiver_sender),
-        receiver(p2, delay, sender_receiver, receiver_sender)
-    )
+    senderTask = asyncio.create_task(sender(p1, delay, timeout, sender_receiver, receiver_sender))
+    receiverTask = asyncio.create_task(receiver(p2, delay, sender_receiver, receiver_sender))
+    await senderTask
+    # when the sender is done, the receiver can also stop. to do this in the simulation we send an control command.
+    await sender_receiver.put(Frame('x','stop'))
+    await receiverTask
+
 
 if __name__ == '__main__':
     p1 = 0.1
